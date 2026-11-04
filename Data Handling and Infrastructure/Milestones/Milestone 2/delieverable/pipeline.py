@@ -65,7 +65,11 @@ def validate_row(row, seen_keys=None):
     if r.get("Unnamed: 15", ""):
         return False, "column_shift:Unnamed_15", {"reason": "column_shift:Unnamed_15", "raw": r}
 
-    if MITRE_RE.search(r.get("Impact", "")) or MITRE_RE.search(r.get("Detection Method", "")):
+    if (
+        MITRE_RE.search(r.get("Impact", ""))
+        or MITRE_RE.search(r.get("Detection Method", ""))
+        or MITRE_RE.search(r.get("Solution", ""))
+    ):
         return False, "column_shift:pipe_delimiter", {"reason": "column_shift:pipe_delimiter", "raw": r}
 
     # 5. Check for duplicate (Title, Scenario Description)
