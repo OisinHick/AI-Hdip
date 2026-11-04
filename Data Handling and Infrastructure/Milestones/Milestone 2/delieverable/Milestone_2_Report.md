@@ -43,7 +43,7 @@ Limitations Regarding Ethics, Privacy, & Bias: No identifiable information or PI
 Each unit of analysis is a single documented cyber attack scenario that makes up each row of this data set. 
 Of the 14,133 raw rows in total, there were 393 rows quarantined based on validation rules which includes;
 262 duplicated scenarios, 82 rows with shifted pipes (ie. The values in adjacent columns have been swapped);
-46 rows in the unnamed: 15 column had an overflow value for the number of characters in that column;
+46 rows had extra comma-separated values that shifted data into the Unnamed: 15 column;
 And 3 truncated rows. 
 This left 13,740 valid rows to be analyzed.
 
@@ -92,7 +92,7 @@ As demonstrated by both the histogram and ECDF plots shown below, the data for t
 | EDA Finding | Pipeline Decision | Limitation |
 | :--- | :--- | :--- |
 | 131 shifted / truncated rows (`Unnamed: 15` & pipe `\|` shifts) | Quarantine to `bad_rows.jsonl` in `validate_row()` | `SCADA/ICS` loses 49 corrupted rows (452 -> 403) |
-| 266 duplicate `(Title, Scenario Description)` rows | Deduplicate in `validate_row()` before train/test split | Near-duplicates with slightly reworded text may remain |
+| 262 duplicate `(Title, Scenario Description)` rows | Deduplicate in `validate_row()` before train/test split | Near-duplicates with slightly reworded text may remain |
 | Missing values in `DFIR` (MITRE) and `Insider Threat` (Tools) | Impute `'Unknown'` / `'Unmapped'` and `tool_count=0` | Imputed token is a rough placeholder |
 | Heavy right skew on word/tool counts (AI categories > `1.5xIQR`) | Keep extreme rows; apply `FunctionTransformer(np.log1p)` | AI scenarios are still longer on average than other classes |
 
